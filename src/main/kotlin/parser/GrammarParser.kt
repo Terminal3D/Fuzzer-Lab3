@@ -107,15 +107,6 @@ class GrammarParser {
 
     private fun parseT(rhs: String, index: Int): Symbol {
         val terminalChar = rhs[index]
-        // if (terminalChar == 'ε') {
-        //     return Symbol(TokenType.EPSILON, "ε")
-        // }
-
-        // val tRegex = Regex(T_REGEX)
-        //
-        // if (!tRegex.matches(terminalChar.toString())) {
-        //     throw IllegalArgumentException("Неверный терминал: '$terminalChar' в правой части: '$rhs'")
-        // }
         terminals.add(terminalChar)
         return Symbol(TokenType.TERMINAL, terminalChar.toString())
     }

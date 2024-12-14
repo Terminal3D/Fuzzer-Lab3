@@ -13,9 +13,9 @@ class BigramGenerator(
         computeLastSets()
         computePrecedeSets()
         computeBigramMatrix()
-        bigramMatrix.forEach {
-            println(it)
-        }
+        // bigramMatrix.forEach {
+        //     println(it)
+        // }
         return this
     }
 

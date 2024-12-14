@@ -1,6 +1,7 @@
 package org.example
 
 import converters.convertToCNF
+import org.example.generator.BFSGenerator
 import org.example.generator.BigramGenerator
 import org.example.generator.generateTests
 import org.example.parser.CYKParser
@@ -61,17 +62,19 @@ fun main() {
     """.trimIndent()
 
     val testCfg3 = """
-        S -> S a
-        S -> c
+        S -> S a [S]
+        S -> C C
+        C -> a C
+        S -> a
+        [S] -> c c c S
     """.trimIndent()
 
     val parser = GrammarParser()
-    val parsedGrammar = parser.parse(testCfg)
+    val parsedGrammar = parser.parse(testCfg3)
 
-    // Вызов метода конвертации в CNF
     val cnfGrammar = parsedGrammar.convertToCNF()
 
-    // println("\nГрамматика после конвертации в ХНФ :")
+    println("\nГрамматика после конвертации в ХНФ :")
     println("Начальный символ: ${cnfGrammar.startSymbol}")
     for ((lhs, productions) in cnfGrammar.grammar) {
         println("$lhs ->")
@@ -82,9 +85,12 @@ fun main() {
 
 
 
-    val generator = BigramGenerator(cnfGrammar).init()
+    val bigramGenerator = BigramGenerator(cnfGrammar).init()
+    val bfsGenerator = BFSGenerator(cnfGrammar)
 
-    val words = generator.generateWords(wordsNumber = 200000)
+    // val words = bigramGenerator.generateWords(wordsNumber = 2000)
+
+    val words = bfsGenerator.generateWords(2, alwaysPositive = true)
 
     val cykParser = CYKParser(cnfGrammar)
 
